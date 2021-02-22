@@ -10,7 +10,6 @@ interface IS3UserConfig {
   region?: string
   endpoint?: string
   urlPrefix?: string
-  useSSL?: boolean
 }
 
 export = (ctx: picgo) => {
@@ -21,7 +20,7 @@ export = (ctx: picgo) => {
       bucketName: '',
       uploadPath: '{year}/{month}/{md5}.{extName}',
     }
-    let userConfig = ctx.getConfig<IS3UserConfig>('picBed.aws-s3')
+    let userConfig = ctx.getConfig<IS3UserConfig>('picBed.picgo-plugin-minio')
     userConfig = { ...defaultConfig, ...(userConfig || {}) }
     return [
       {
@@ -75,15 +74,6 @@ export = (ctx: picgo) => {
         message: 'https://img.example.com/bucket-name/',
         required: false,
         alias: '自定义域名'
-      },
-      {
-        name: 'useSSL',
-        type: 'list',
-        choices: [false, true],
-        default: false,
-        message: 'https://img.example.com/bucket-name/',
-        required: false,
-        alias: '是否启用 SSL'
       }
     ]
   }
@@ -117,6 +107,7 @@ export = (ctx: picgo) => {
     )
 
     try {
+      ctx.log.info('Start uploading')
       const results: IUploadResult[] = await Promise.all(tasks)
       for (let result of results) {
         const { index, url, imgURL } = result
@@ -147,15 +138,12 @@ export = (ctx: picgo) => {
 
   const register = () => {
     ctx.helper.uploader.register('picgo-plugin-minio', {
-      handle (ctx) {
-        console.log(ctx)
-      },
+      handle,
       config,
       name: 'Minio'
     })
   }
   return {
-    uploader: 'picgo-plugin-minio',
     register
   }
 }

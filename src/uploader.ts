@@ -19,6 +19,8 @@ function createS3Client(
     endpoint,
     accessKeyId: accessKeyID,
     secretAccessKey: secretAccessKey,
+    s3ForcePathStyle: true,
+    signatureVersion: 'v4'
   })
   return s3
 }
@@ -55,6 +57,7 @@ function createUploadTask(
     s3.upload(opts)
       .promise()
       .then((result) => {
+        console.log('upload result: ', result)
         resolve({
           url: result.Location,
           imgURL: result.Key,

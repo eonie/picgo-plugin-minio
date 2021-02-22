@@ -1,12 +1,12 @@
 {
-  "name": "picgo-plugin-picgo-plugin-minio",
+  "name": "picgo-plugin-minio",
   "version": "1.0.0",
   "description": "A picgo plugin for minio，which support S3 path-style access.",
   "main": "dist/index.js",
   "publishConfig": {
     "access": "public"
   },
-  "homepage": "",
+  "homepage": "https://github.com/eonie/picgo-plugin-minio",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p .",
@@ -16,6 +16,9 @@
     "major": "npm version major && git push origin master && git push origin --tags"
   },
   "keywords": [
+    "minio",
+    "S3",
+    "path-style-access",
     "picgo",
     "picgo-gui-plugin",
     "picgo-plugin"
@@ -36,6 +39,6 @@
     "typescript": "^3.7.3"
   },
   "dependencies": {
-    "minio": "^7.0.18"
+    "aws-sdk": "^2.848.0"
   }
 }
